@@ -3,6 +3,7 @@ package com.audioStreaming;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.app.Activity;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
@@ -39,8 +40,9 @@ public class ReactNativeAudioStreamingModule extends ReactContextBaseJavaModule
   }
 
   public Class<?> getClassActivity() {
-    if (this.clsActivity == null) {
-      this.clsActivity = getCurrentActivity().getClass();
+    Activity activity = getCurrentActivity();
+    if (this.clsActivity == null && activity != null) {
+        this.clsActivity = activity.getClass();
     }
     return this.clsActivity;
   }

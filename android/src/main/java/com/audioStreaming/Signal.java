@@ -165,6 +165,9 @@ public class Signal extends Service implements OnErrorListener,
     }
 
     public void showNotification() {
+        if (this.clsActivity == null) {
+            this.clsActivity = this.module.getClassActivity();
+        }
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.streaming_notification_player);
         notifyBuilder = new NotificationCompat.Builder(this.context)
                 .setSmallIcon(android.R.drawable.ic_lock_silent_mode_off) // TODO Use app icon instead
@@ -329,7 +332,7 @@ public class Signal extends Service implements OnErrorListener,
         metaIntent.putExtra("value", value);
         sendBroadcast(metaIntent);
 
-        if (key != null && key.equals("StreamTitle") && remoteViews != null && value != null) {
+        if (key != null && key.equals("StreamTitle")) {
             remoteViews.setTextViewText(R.id.song_name_notification, value);
             notifyBuilder.setContent(remoteViews);
             notifyManager.notify(NOTIFY_ME_ID, notifyBuilder.build());
